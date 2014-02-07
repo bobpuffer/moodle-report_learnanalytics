@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Output rendering of learn_analytics report
+ * Output rendering of learnanalytics report
  *
  * @package    report
  * @subpackage analtyics
@@ -26,14 +26,14 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/pluginlib.php');
-require_once($CFG->dirroot . '/report/learn_analytics/locallib.php');
-require_once($CFG->dirroot . '/mod/learn_analytics/indicator/rendererbase.php');
+require_once($CFG->dirroot . '/report/learnanalytics/locallib.php');
+require_once($CFG->dirroot . '/mod/learnanalytics/indicator/rendererbase.php');
 require_once($CFG->libdir . '/tablelib.php');
 
 /**
- * Rendering methods for the learn_analytics reports
+ * Rendering methods for the learnanalytics reports
  */
-class report_learn_analytics_renderer extends plugin_renderer_base {
+class report_learnanalytics_renderer extends plugin_renderer_base {
 
     /**
      * course_report
@@ -49,14 +49,14 @@ class report_learn_analytics_renderer extends plugin_renderer_base {
             return '';
         }
 
-        $table = new flexible_table('learn_analytics-course-report');
-        $table->define_baseurl(new moodle_url('/report/learn_analytics/index.php', array('id' => $COURSE->id)));
+        $table = new flexible_table('learnanalytics-course-report');
+        $table->define_baseurl(new moodle_url('/report/learnanalytics/index.php', array('id' => $COURSE->id)));
         $headers = array();
         $columns = array();
         $headers[] = get_string('username');
         $columns[] = 'username';
         foreach ($indicators as $indicator) {
-            $headers[] = get_string('pluginname', "learn_analyticsindicator_$indicator");
+            $headers[] = get_string('pluginname', "learnanalyticsindicator_$indicator");
             $columns[] = "indicator_$indicator";
         }
         $headers[] = get_string('total');
@@ -73,7 +73,7 @@ class report_learn_analytics_renderer extends plugin_renderer_base {
         }
         $table->column_class('total', 'total');
 
-        $table->set_attribute('id', 'learn_analytics-course-report');
+        $table->set_attribute('id', 'learnanalytics-course-report');
         $table->set_attribute('class', 'generaltable generalbox boxaligncenter boxwidthwide');
         $table->setup();
 
@@ -82,7 +82,7 @@ class report_learn_analytics_renderer extends plugin_renderer_base {
 
             $displayname = fullname($DB->get_record('user', array('id' => $user)));
 
-            $url = new moodle_url('/report/learn_analytics/index.php', array('id' => $COURSE->id, 'userid' => $user));
+            $url = new moodle_url('/report/learnanalytics/index.php', array('id' => $COURSE->id, 'userid' => $user));
             $row[] = html_writer::link($url, $displayname);
             $total = 0;
             $total_raw = 0;
@@ -104,7 +104,7 @@ class report_learn_analytics_renderer extends plugin_renderer_base {
             $table->add_data($row);
         }
 
-        $html = $this->output->notification(get_string('reportdescription', 'report_learn_analytics'));
+        $html = $this->output->notification(get_string('reportdescription', 'report_learnanalytics'));
         ob_start();
         $table->finish_output();
         $html .= ob_get_clean();
@@ -136,7 +136,7 @@ class report_learn_analytics_renderer extends plugin_renderer_base {
         );
 
         foreach ($instances as $name => $path) {
-            $plugin = $pluginman->get_plugin_info('learn_analyticsindicator_'.$name);
+            $plugin = $pluginman->get_plugin_info('learnanalyticsindicator_'.$name);
 
             $row = new html_table_row();
             $row->attributes['class'] = 'type-' . $plugin->type . ' name-' . $plugin->type . '_' . $plugin->name;
@@ -156,7 +156,7 @@ class report_learn_analytics_renderer extends plugin_renderer_base {
             $displayname  = $icon . ' ' . $plugin->displayname . ' ' . $msg;
             $displayname = new html_table_cell($displayname);
 
-            if (report_learn_analytics_is_core_indicator($name)) {
+            if (report_learnanalytics_is_core_indicator($name)) {
                 $row->attributes['class'] .= ' standard';
                 $source = new html_table_cell(get_string('sourcestd', 'core_plugin'));
             } else {
@@ -198,11 +198,11 @@ class report_learn_analytics_renderer extends plugin_renderer_base {
 
     public function user_report($indicators, $data) {
         global $CFG;
-        $html = html_writer::start_tag('div', array('id' => 'report-learn_analytics_userreport'));
+        $html = html_writer::start_tag('div', array('id' => 'report-learnanalytics_userreport'));
         foreach ($indicators as $indicator) {
-            require_once("$CFG->dirroot/mod/learn_analytics/indicator/$indicator/renderer.php");
-            $renderer = $this->page->get_renderer("learn_analyticsindicator_$indicator");
-            $html .= $this->output->heading(get_string('pluginname', "learn_analyticsindicator_$indicator"), 1, 'userreport_heading');
+            require_once("$CFG->dirroot/mod/learnanalytics/indicator/$indicator/renderer.php");
+            $renderer = $this->page->get_renderer("learnanalyticsindicator_$indicator");
+            $html .= $this->output->heading(get_string('pluginname', "learnanalyticsindicator_$indicator"), 1, 'userreport_heading');
             $html .= $renderer->user_report($data["indicator_$indicator"]);
         }
         $html .= html_writer::end_tag('div');

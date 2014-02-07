@@ -17,7 +17,7 @@
 /**
  * Report settings
  *
- * @package    report_learn_analytics
+ * @package    report_learnanalytics
  * @copyright  NetSpot Pty Ltd
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,6 +25,6 @@
 defined('MOODLE_INTERNAL') || die;
 
 // No report settings.
-$url = new moodle_url('/report/learn_analytics/manage_indicators.php', array('contextid' => SYSCONTEXTID));
-$settings = new admin_externalpage('reportlearn_analyticsindicators',
-                                   get_string('pluginname', 'report_learn_analytics'), $url, 'report/learn_analytics:manage');
+$url = new moodle_url('/report/learnanalytics/manage_indicators.php', array('contextid' => SYSCONTEXTID));
+$settings = new admin_externalpage('reportlearnanalyticsindicators',
+                                   get_string('pluginname', 'report_learnanalytics'), $url, 'report/learnanalytics:manage');

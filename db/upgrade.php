@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Upgrades for learn_analytics
+ * Upgrades for learnanalytics
  *
- * @package    report_learn_analytics
+ * @package    report_learnanalytics
  * @copyright  2014 CLAMP
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-function xmldb_report_learn_analytics_upgrade($oldversion) {
+function xmldb_report_learnanalytics_upgrade($oldversion) {
     global $CFG, $DB;
 
     $dbman = $DB->get_manager();

@@ -1,4 +1,4 @@
-Moodle learn_analytics Analytics for Moodle 2
+Moodle Learning Analytics for Moodle 2
 
  * ABOUT *
 
@@ -17,10 +17,10 @@ Indicator Algorithms: Phillip Dawson <phillip.dawson@monash.edu>
 
  * BUGS / ISSUES / TODO *
 
-https://github.com/netspotau/moodle-report_learn_analytics/issues
+https://github.com/netspotau/moodle-report_learnanalytics/issues
 
  * HOMEPAGE / GITHUB *
 
-http://github.com/netspotau/moodle-block_learn_analytics
-http://github.com/netspotau/moodle-mod_learn_analytics
-http://github.com/netspotau/moodle-report_learn_analytics
+http://github.com/netspotau/moodle-block_learnanalytics
+http://github.com/netspotau/moodle-mod_learnanalytics
+http://github.com/netspotau/moodle-report_learnanalytics

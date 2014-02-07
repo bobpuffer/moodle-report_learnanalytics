@@ -17,14 +17,14 @@
 /**
  * Capabilities
  *
- * @package    report_learn_analytics
+ * @package    report_learnanalytics
  * @copyright  NetSpot Pty Ltd
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $capabilities = array(
 
-    'report/learn_analytics:manage' => array(
+    'report/learnanalytics:manage' => array(
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
@@ -33,7 +33,7 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         ),
     ),
-    'report/learn_analytics:view' => array(
+    'report/learnanalytics:view' => array(
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
