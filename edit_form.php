@@ -17,8 +17,8 @@
 /**
  * Displays indicator reports for a chosen course
  *
- * @package    report_engagement
- * @copyright  2012 NetSpot Pty Ltd
+ * @package    report_learn_analytics
+ * @copyright  2014 CLAMP
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ if (!defined('MOODLE_INTERNAL')) {
 
 require_once($CFG->libdir.'/formslib.php');
 
-class report_engagement_edit_form extends moodleform {
+class report_learn_analytics_edit_form extends moodleform {
 
     protected function definition() {
         global $CFG, $OUTPUT;
@@ -40,29 +40,29 @@ class report_engagement_edit_form extends moodleform {
         $mform->setType('id', PARAM_INT);
 
         // TODO: general course-level report settings.
-        $mform->addElement('header', 'general', get_string('pluginname', 'report_engagement'));
+        $mform->addElement('header', 'general', get_string('pluginname', 'report_learn_analytics'));
 
-        $mform->addElement('header', 'weightings', get_string('weighting', 'report_engagement'));
-        $mform->addElement('static', 'weightings_desc', get_string('indicator', 'report_engagement'));
+        $mform->addElement('header', 'weightings', get_string('weighting', 'report_learn_analytics'));
+        $mform->addElement('static', 'weightings_desc', get_string('indicator', 'report_learn_analytics'));
         foreach ($indicators as $name => $path) {
             $grouparray = array();
             $grouparray[] =& $mform->createElement('text', "weighting_$name", '', array('size' => 3));
             $grouparray[] =& $mform->createElement('static', '', '', '%');
-            $mform->addGroup($grouparray, "weight_group_$name", get_string('pluginname', "engagementindicator_$name"),
+            $mform->addGroup($grouparray, "weight_group_$name", get_string('pluginname', "learn_analyticsindicator_$name"),
                         '&nbsp;', false);
             $mform->setType("weighting_$name", PARAM_FLOAT);
         }
 
         $pluginman = plugin_manager::instance();
-        $instances = get_plugin_list('engagementindicator');
+        $instances = get_plugin_list('learn_analyticsindicator');
         foreach ($indicators as $name => $path) {
-            $plugin = $pluginman->get_plugin_info('engagementindicator_'.$name);
-            $file = "$CFG->dirroot/mod/engagement/indicator/$name/thresholds_form.php";
+            $plugin = $pluginman->get_plugin_info('learn_analyticsindicator_'.$name);
+            $file = "$CFG->dirroot/mod/learn_analytics/indicator/$name/thresholds_form.php";
             if (file_exists($file) && $plugin->is_enabled()) {
                 require_once($file);
-                $class = "engagementindicator_{$name}_thresholds_form";
+                $class = "learn_analyticsindicator_{$name}_thresholds_form";
                 $subform = new $class();
-                $mform->addElement('header', 'general', get_string('pluginname', "engagementindicator_$name"));
+                $mform->addElement('header', 'general', get_string('pluginname', "learn_analyticsindicator_$name"));
                 $subform->definition_inner($mform);
             }
         }
@@ -75,12 +75,12 @@ class report_engagement_edit_form extends moodleform {
         $mform =& $this->_form;
 
         $errors = array();
-        $indicators = get_plugin_list('engagementindicator');
+        $indicators = get_plugin_list('learn_analyticsindicator');
         $sum = 0;
         foreach ($indicators as $indicator => $path) {
             $key = "weighting_$indicator";
             if (isset($data[$key]) && (!is_numeric($data[$key]) || $data[$key] > 100 || $data[$key] < 0)) {
-                $errors["weight_group_$indicator"] = get_string('weightingmustbenumeric', 'report_engagement');
+                $errors["weight_group_$indicator"] = get_string('weightingmustbenumeric', 'report_learn_analytics');
                 continue;
             }
             if (isset($data[$key])) {
@@ -89,7 +89,7 @@ class report_engagement_edit_form extends moodleform {
         }
 
         if ($sum != 100) {
-            $errors['weightings_desc'] = get_string('weightingsumtoonehundred', 'report_engagement');
+            $errors['weightings_desc'] = get_string('weightingsumtoonehundred', 'report_learn_analytics');
         }
 
         return $errors;

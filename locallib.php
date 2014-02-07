@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Output rendering of engagement report
+ * Output rendering of learn_analytics report
  *
- * @package    report_engagement
- * @copyright  2012 NetSpot Pty Ltd
+ * @package    report_learn_analytics
+ * @copyright  2014 CLAMP
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,32 +26,32 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/pluginlib.php');
 
-class plugininfo_engagementindicator extends plugininfo_base {
+class plugininfo_learn_analyticsindicator extends plugininfo_base {
 
     public function is_enabled() {
 
-        $enabled = self::get_enabled_engagementindicators();
+        $enabled = self::get_enabled_learn_analyticsindicators();
 
         return isset($enabled[$this->name]) && $enabled[$this->name]->visible;
     }
 
-    protected function get_enabled_engagementindicators($disablecache = false) {
+    protected function get_enabled_learn_analyticsindicators($disablecache = false) {
         global $DB;
         static $indicators = null;
 
         if (is_null($indicators) or $disablecache) {
-            $indicators = $DB->get_records('engagement_indicator', null, 'name', 'name,visible');
+            $indicators = $DB->get_records('learn_analytics_indicator', null, 'name', 'name,visible');
         }
 
         return $indicators;
     }
 }
 
-function report_engagement_sort_indicators($a, $b) {
+function report_learn_analytics_sort_indicators($a, $b) {
     global $SESSION;
     $tsort = required_param('tsort', PARAM_ALPHANUMEXT);
-    $sort = isset($SESSION->flextable['engagement-course-report']->sortby[$tsort]) ?
-                $SESSION->flextable['engagement-course-report']->sortby[$tsort] : SORT_DESC;
+    $sort = isset($SESSION->flextable['learn_analytics-course-report']->sortby[$tsort]) ?
+                $SESSION->flextable['learn_analytics-course-report']->sortby[$tsort] : SORT_DESC;
     if ($a[$tsort] == $b[$tsort]) {
         return 0;
     }
@@ -62,10 +62,10 @@ function report_engagement_sort_indicators($a, $b) {
     }
 }
 
-function report_engagement_sort_risks($a, $b) {
+function report_learn_analytics_sort_risks($a, $b) {
     global $SESSION;
-    $sort = isset($SESSION->flextable['engagement-course-report']->sortby['total']) ?
-                $SESSION->flextable['engagement-course-report']->sortby['total'] : SORT_DESC;
+    $sort = isset($SESSION->flextable['learn_analytics-course-report']->sortby['total']) ?
+                $SESSION->flextable['learn_analytics-course-report']->sortby['total'] : SORT_DESC;
     $asum = $bsum = 0;
     foreach ($a as $name => $values) {
         $asum += $values['raw'] * $values['weight'];
@@ -83,11 +83,11 @@ function report_engagement_sort_risks($a, $b) {
     }
 }
 
-function report_engagement_update_indicator($courseid, $new_weights, $configdata = array()) {
+function report_learn_analytics_update_indicator($courseid, $new_weights, $configdata = array()) {
     global $DB;
 
     $weights = array();
-    if ($weightrecords = $DB->get_records('report_engagement', array('course' => $courseid))) {
+    if ($weightrecords = $DB->get_records('report_learn_analytics', array('course' => $courseid))) {
         foreach ($weightrecords as $record) {
             $weights[$record->indicator] = $record;
         }
@@ -102,13 +102,13 @@ function report_engagement_update_indicator($courseid, $new_weights, $configdata
             if (isset($configdata[$indicator])) {
                 $record->configdata = base64_encode(serialize($configdata[$indicator]));
             }
-            $DB->insert_record('report_engagement', $record);
+            $DB->insert_record('report_learn_analytics', $record);
         } else {
             $weights[$indicator]->weight = $weight;
             if (isset($configdata[$indicator])) {
                 $weights[$indicator]->configdata = base64_encode(serialize($configdata[$indicator]));
             }
-            $DB->update_record('report_engagement', $weights[$indicator]);
+            $DB->update_record('report_learn_analytics', $weights[$indicator]);
         }
     }
 }

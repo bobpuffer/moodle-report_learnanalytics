@@ -17,7 +17,7 @@
 /**
  * Report settings
  *
- * @package    report_engagement
+ * @package    report_learn_analytics
  * @copyright  NetSpot Pty Ltd
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,6 +25,6 @@
 defined('MOODLE_INTERNAL') || die;
 
 // No report settings.
-$url = new moodle_url('/report/engagement/manage_indicators.php', array('contextid' => SYSCONTEXTID));
-$settings = new admin_externalpage('reportengagementindicators',
-                                   get_string('pluginname', 'report_engagement'), $url, 'report/engagement:manage');
+$url = new moodle_url('/report/learn_analytics/manage_indicators.php', array('contextid' => SYSCONTEXTID));
+$settings = new admin_externalpage('reportlearn_analyticsindicators',
+                                   get_string('pluginname', 'report_learn_analytics'), $url, 'report/learn_analytics:manage');

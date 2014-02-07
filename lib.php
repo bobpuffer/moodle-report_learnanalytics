@@ -17,9 +17,9 @@
 /**
  * Libs, public API.
  *
- * @package    report_engagement
+ * @package    report_learn_analytics
  * @author     Adam Olley <adam.olley@netspot.com.au>
- * @copyright  2012 NetSpot Pty Ltd
+ * @copyright  2014 CLAMP
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die;
 
 // Since 2.4 we need to have the plugin class declared early.
 require_once($CFG->libdir.'/pluginlib.php');
-require_once($CFG->dirroot . '/report/engagement/locallib.php');
+require_once($CFG->dirroot . '/report/learn_analytics/locallib.php');
 
 /**
  * This function extends the navigation with the report items
@@ -36,23 +36,23 @@ require_once($CFG->dirroot . '/report/engagement/locallib.php');
  * @param stdClass $course The course to object for the report
  * @param stdClass $context The context of the course
  */
-function report_engagement_extend_navigation_course($navigation, $course, $context) {
-    if ($course->id != SITEID && has_capability('report/engagement:view', $context)) {
-        $url = new moodle_url('/report/engagement/index.php', array('id' => $course->id));
-        $navigation->add(get_string('pluginname', 'report_engagement'), $url,
+function report_learn_analytics_extend_navigation_course($navigation, $course, $context) {
+    if ($course->id != SITEID && has_capability('report/learn_analytics:view', $context)) {
+        $url = new moodle_url('/report/learn_analytics/index.php', array('id' => $course->id));
+        $navigation->add(get_string('pluginname', 'report_learn_analytics'), $url,
                          navigation_node::TYPE_SETTING, null, null, new pix_icon('i/report', ''));
     }
 }
 
-function report_engagement_get_course_summary($courseid) {
+function report_learn_analytics_get_course_summary($courseid) {
     global $CFG, $DB;
 
     $risks = array();
 
     // TODO: We want this to rely on enabled indicators in the course...
     $pluginman = plugin_manager::instance();
-    $instances = get_plugin_list('engagementindicator');
-    if (!$weightings = $DB->get_records_menu('report_engagement', array('course' => $courseid), '', 'indicator, weight')) {
+    $instances = get_plugin_list('learn_analyticsindicator');
+    if (!$weightings = $DB->get_records_menu('report_learn_analytics', array('course' => $courseid), '', 'indicator, weight')) {
         // Setup default weightings, all equal.
         $weight = sprintf('%.2f', 1 / count($instances));
         foreach ($instances as $name => $path) {
@@ -61,12 +61,12 @@ function report_engagement_get_course_summary($courseid) {
             $record->indicator = $name;
             $record->weight = $weight;
             $record->configdata = null;
-            $wid = $DB->insert_record('report_engagement', $record);
+            $wid = $DB->insert_record('report_learn_analytics', $record);
             $weightings[$name] = $weight;
         }
     }
     foreach ($instances as $name => $path) {
-        $plugin = $pluginman->get_plugin_info('engagementindicator_'.$name);
+        $plugin = $pluginman->get_plugin_info('learn_analyticsindicator_'.$name);
         if ($plugin->is_enabled() && file_exists("$path/indicator.class.php")) {
             require_once("$path/indicator.class.php");
             $classname = "indicator_$name";
@@ -85,26 +85,26 @@ function report_engagement_get_course_summary($courseid) {
 }
 
 /**
- * report_engagement_get_risk_level
+ * report_learn_analytics_get_risk_level
  *
  * @param mixed $risk
  * @access public
  * @return array    array of values for which different risk levels take effect
  */
-function report_engagement_get_risk_level($risk) {
+function report_learn_analytics_get_risk_level($risk) {
     global $DB;
     // TODO: accept some instance of an overall record for the course...
     return $risk == 0 ? 0 : ceil($risk * 100 / 20) - 1;
 }
 
 /**
- * Is an indicator an engagement core supported indicator?
+ * Is an indicator an learn_analytics core supported indicator?
  *
  * @param string $indicator the indicator shortname
  * @access public
  * @return bool true if a core indicator, otherwise false
  */
-function report_engagement_is_core_indicator($indicator) {
+function report_learn_analytics_is_core_indicator($indicator) {
     $core = array('login', 'assessment', 'forum');
     $core = array_flip($core);
     return isset($core[$indicator]);
@@ -117,22 +117,22 @@ function report_engagement_is_core_indicator($indicator) {
  * @param stdClass $currentcontext Current context of block
  * @return array
  */
-function report_engagement_page_type_list($pagetype, $parentcontext, $currentcontext) {
+function report_learn_analytics_page_type_list($pagetype, $parentcontext, $currentcontext) {
     $array = array(
         '*'                         => get_string('page-x', 'pagetype'),
         'report-*'                  => get_string('page-report-x', 'pagetype'),
-        'report-engagement-*'        => get_string('page-report-engagement-x',  'report_engagement'),
-        'report-engagement-index'    => get_string('page-report-engagement-index',  'report_engagement'),
-        'report-engagement-course'   => get_string('page-report-engagement-user',  'report_engagement'),
-        'report-engagement-user'     => get_string('page-report-engagement-user',  'report_engagement'),
+        'report-learn_analytics-*'        => get_string('page-report-learn_analytics-x',  'report_learn_analytics'),
+        'report-learn_analytics-index'    => get_string('page-report-learn_analytics-index',  'report_learn_analytics'),
+        'report-learn_analytics-course'   => get_string('page-report-learn_analytics-user',  'report_learn_analytics'),
+        'report-learn_analytics-user'     => get_string('page-report-learn_analytics-user',  'report_learn_analytics'),
     );
     return $array;
 }
 
-function report_engagement_cron() {
+function report_learn_analytics_cron() {
     global $DB;
 
-    $cachettl = get_config('engagement', 'cachettl');
+    $cachettl = get_config('learn_analytics', 'cachettl');
     if (!$cachettl) {
         // Default to 5 mins if not configured.
         $cachettl = 300;
@@ -142,7 +142,7 @@ function report_engagement_cron() {
     $expirytime = $now - $cachettl;
 
     // Delete all cache records older than $expirytime.
-    $DB->delete_records_select('engagement_cache', "timemodified < $expirytime");
+    $DB->delete_records_select('learn_analytics_cache', "timemodified < $expirytime");
 
     return true;
 }

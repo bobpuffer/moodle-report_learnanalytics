@@ -17,23 +17,23 @@
 /**
  * Strings
  *
- * @package    report_engagement
+ * @package    report_learn_analytics
  * @copyright  NetSpot Pty Ltd
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['engagement:manage'] = 'Manage engagement analytics report';
-$string['engagement:view'] = 'View engagement analytics report';
-$string['coursereport'] = 'Engagement engagement for course: {$a->course}';
+$string['learn_analytics:manage'] = 'Manage learn_analytics analytics report';
+$string['learn_analytics:view'] = 'View learn_analytics analytics report';
+$string['coursereport'] = 'learn_analytics learn_analytics for course: {$a->course}';
 $string['indicator'] = 'Indicator';
 $string['manageindicators'] = 'Manage indicators';
-$string['page-report-engagement-x'] = 'Any engagement analytics report';
-$string['page-report-engagement-index'] = 'Course engagement analytics report';
-$string['page-report-engagement-user'] = 'User course engagement analytics report';
-$string['pluginname'] = 'Engagement analytics';
+$string['page-report-learn_analytics-x'] = 'Any learn_analytics analytics report';
+$string['page-report-learn_analytics-index'] = 'Course learn_analytics analytics report';
+$string['page-report-learn_analytics-user'] = 'User course learn_analytics analytics report';
+$string['pluginname'] = 'learn_analytics analytics';
 $string['reportdescription'] = 'Scores are shown as "weighted score (raw score)"';
 $string['updatesettings'] = 'Update settings';
-$string['userreport'] = 'Engagement analytics for {$a->user} in course: {$a->course}';
+$string['userreport'] = 'learn_analytics analytics for {$a->user} in course: {$a->course}';
 $string['weighting'] = 'Weighting';
 $string['weighting_desc'] = 'Test';
 $string['weightingmustbenumeric'] = 'Weighting percentages must be a numeric value in the range 0~100';
