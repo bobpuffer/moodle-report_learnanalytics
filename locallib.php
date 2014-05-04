@@ -21,12 +21,15 @@
  * @copyright  2014 CLAMP
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+namespace mod_learnanalytics\plugininfo;
+
+use core\plugininfo\base;
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/pluginlib.php');
 
-class plugininfo_learnanalyticsindicator extends plugininfo_base {
+class learnanalyticsindicator extends base {
 
     public function is_enabled() {
 
