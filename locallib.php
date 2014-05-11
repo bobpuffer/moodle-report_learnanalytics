@@ -29,16 +29,16 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/pluginlib.php');
 
-class indicator extends base {
+class learnanalyticsindicator extends base {
 
     public function is_enabled() {
 
-        $enabled = self::get_enabled_indicators();
+        $enabled = self::get_enabled_learnanalyticsindicators();
 
         return isset($enabled[$this->name]) && $enabled[$this->name]->visible;
     }
 
-    protected function get_enabled_indicators($disablecache = false) {
+    protected function get_enabled_learnanalyticsindicators($disablecache = false) {
         global $DB;
         static $indicators = null;
 
