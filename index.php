@@ -73,9 +73,9 @@ if (isset($user)) {
 echo $OUTPUT->heading(get_string($heading, 'report_learnanalytics', $info));
 
 $pluginman = plugin_manager::instance();
-$indicators = get_plugin_list('learnanalyticsindicator');
+$indicators = get_plugin_list('indicator');
 foreach ($indicators as $name => $path) {
-    $plugin = $pluginman->get_plugin_info('learnanalyticsindicator_'.$name);
+    $plugin = $pluginman->get_plugin_info('indicator_'.$name);
     if (!$plugin->is_enabled()) {
         unset($indicators[$name]);
     }

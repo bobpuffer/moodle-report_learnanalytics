@@ -56,7 +56,7 @@ class report_learnanalytics_renderer extends plugin_renderer_base {
         $headers[] = get_string('username');
         $columns[] = 'username';
         foreach ($indicators as $indicator) {
-            $headers[] = get_string('pluginname', "learnanalyticsindicator_$indicator");
+            $headers[] = get_string('pluginname', "indicator_$indicator");
             $columns[] = "indicator_$indicator";
         }
         $headers[] = get_string('total');
@@ -136,7 +136,7 @@ class report_learnanalytics_renderer extends plugin_renderer_base {
         );
 
         foreach ($instances as $name => $path) {
-            $plugin = $pluginman->get_plugin_info('learnanalyticsindicator_'.$name);
+            $plugin = $pluginman->get_plugin_info('indicator_'.$name);
 
             $row = new html_table_row();
             $row->attributes['class'] = 'type-' . $plugin->type . ' name-' . $plugin->type . '_' . $plugin->name;
@@ -201,8 +201,8 @@ class report_learnanalytics_renderer extends plugin_renderer_base {
         $html = html_writer::start_tag('div', array('id' => 'report-learnanalytics_userreport'));
         foreach ($indicators as $indicator) {
             require_once("$CFG->dirroot/mod/learnanalytics/indicator/$indicator/renderer.php");
-            $renderer = $this->page->get_renderer("learnanalyticsindicator_$indicator");
-            $html .= $this->output->heading(get_string('pluginname', "learnanalyticsindicator_$indicator"), 1, 'userreport_heading');
+            $renderer = $this->page->get_renderer("indicator_$indicator");
+            $html .= $this->output->heading(get_string('pluginname', "indicator_$indicator"), 1, 'userreport_heading');
             $html .= $renderer->user_report($data["indicator_$indicator"]);
         }
         $html .= html_writer::end_tag('div');

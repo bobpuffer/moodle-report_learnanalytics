@@ -51,7 +51,7 @@ function report_learnanalytics_get_course_summary($courseid) {
 
     // TODO: We want this to rely on enabled indicators in the course...
     $pluginman = plugin_manager::instance();
-    $instances = get_plugin_list('learnanalyticsindicator');
+    $instances = get_plugin_list('indicator');
     if (!$weightings = $DB->get_records_menu('report_learnanalytics', array('course' => $courseid), '', 'indicator, weight')) {
         // Setup default weightings, all equal.
         $weight = sprintf('%.2f', 1 / count($instances));
@@ -66,7 +66,7 @@ function report_learnanalytics_get_course_summary($courseid) {
         }
     }
     foreach ($instances as $name => $path) {
-        $plugin = $pluginman->get_plugin_info('learnanalyticsindicator_'.$name);
+        $plugin = $pluginman->get_plugin_info('indicator_'.$name);
         if ($plugin->is_enabled() && file_exists("$path/indicator.class.php")) {
             require_once("$path/indicator.class.php");
             $classname = "indicator_$name";

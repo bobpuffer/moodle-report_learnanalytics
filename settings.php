@@ -26,5 +26,5 @@ defined('MOODLE_INTERNAL') || die;
 
 // No report settings.
 $url = new moodle_url('/report/learnanalytics/manage_indicators.php', array('contextid' => SYSCONTEXTID));
-$settings = new admin_externalpage('reportlearnanalyticsindicators',
+$settings = new admin_externalpage('reportindicators',
                                    get_string('pluginname', 'report_learnanalytics'), $url, 'report/learnanalytics:manage');

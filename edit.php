@@ -49,7 +49,7 @@ $PAGE->navbar->add(get_string('updatesettings', 'report_learnanalytics'), $url);
 $PAGE->set_title("$course->shortname: $strpluginname");
 $PAGE->set_heading($course->fullname);
 
-$indicators = get_plugin_list('learnanalyticsindicator');
+$indicators = get_plugin_list('indicator');
 $mform = new report_learnanalytics_edit_form(null, array('id' => $id, 'indicators' => $indicators));
 
 $message = '';
@@ -71,7 +71,7 @@ if ($mform->is_cancelled()) {
         $indicatorfile = "$CFG->dirroot/mod/learnanalytics/indicator/$indicator/locallib.php";
         if (file_exists($indicatorfile)) {
             require_once($indicatorfile);
-            $func = "learnanalyticsindicator_{$indicator}_process_edit_form";
+            $func = "indicator_{$indicator}_process_edit_form";
             $configdata[$indicator] = $func($formdata);
         }
     }

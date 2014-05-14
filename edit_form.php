@@ -48,21 +48,21 @@ class report_learnanalytics_edit_form extends moodleform {
             $grouparray = array();
             $grouparray[] =& $mform->createElement('text', "weighting_$name", '', array('size' => 3));
             $grouparray[] =& $mform->createElement('static', '', '', '%');
-            $mform->addGroup($grouparray, "weight_group_$name", get_string('pluginname', "learnanalyticsindicator_$name"),
+            $mform->addGroup($grouparray, "weight_group_$name", get_string('pluginname', "indicator_$name"),
                         '&nbsp;', false);
             $mform->setType("weighting_$name", PARAM_FLOAT);
         }
 
         $pluginman = plugin_manager::instance();
-        $instances = get_plugin_list('learnanalyticsindicator');
+        $instances = get_plugin_list('indicator');
         foreach ($indicators as $name => $path) {
-            $plugin = $pluginman->get_plugin_info('learnanalyticsindicator_'.$name);
+            $plugin = $pluginman->get_plugin_info('indicator_'.$name);
             $file = "$CFG->dirroot/mod/learnanalytics/indicator/$name/thresholds_form.php";
             if (file_exists($file) && $plugin->is_enabled()) {
                 require_once($file);
-                $class = "learnanalyticsindicator_{$name}_thresholds_form";
+                $class = "indicator_{$name}_thresholds_form";
                 $subform = new $class();
-                $mform->addElement('header', 'general', get_string('pluginname', "learnanalyticsindicator_$name"));
+                $mform->addElement('header', 'general', get_string('pluginname', "indicator_$name"));
                 $subform->definition_inner($mform);
             }
         }
@@ -75,7 +75,7 @@ class report_learnanalytics_edit_form extends moodleform {
         $mform =& $this->_form;
 
         $errors = array();
-        $indicators = get_plugin_list('learnanalyticsindicator');
+        $indicators = get_plugin_list('indicator');
         $sum = 0;
         foreach ($indicators as $indicator => $path) {
             $key = "weighting_$indicator";
