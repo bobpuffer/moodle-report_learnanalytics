@@ -104,12 +104,12 @@ if (!$userid) { // Course report.
     if ($tsort && isset($SESSION->flextable['learnanalytics-course-report'])) {
         $settings = $SESSION->flextable['learnanalytics-course-report'];
         if ($tsort == 'total') {
-            uasort($data, 'report_learnanalytics_sort_risks');
+            uasort($data, 'mod_learnanalytics\plugininfo\report_learnanalytics_sort_risks');
         } else if (preg_match('/^indicator_(.*)/', $tsort, $matches)) {
-            uasort($data, 'report_learnanalytics_sort_indicators');
+            uasort($data, 'mod_learnanalytics\plugininfo\report_learnanalytics_sort_indicators');
         }
     } else {
-        uasort($data, 'report_learnanalytics_sort_risks');
+        uasort($data, 'mod_learnanalytics\plugininfo\report_learnanalytics_sort_risks');
     }
 
     echo $renderer->course_report(array_keys($indicators), $data);
